@@ -1,0 +1,4 @@
+disk.db
+cred.py
+archive/*
+__pycache__/*
