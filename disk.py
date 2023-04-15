@@ -1,4 +1,18 @@
 #!/usr/bin/env python3
+'''
+    run "df -k" to check disk space on the server. Put the results of this into 
+    a sqlite database [disk.db]
+
+    disk.db [Table = disk]:
+        runid = datetime primary key
+        filesystem = varchar(32)
+        block = integer
+        blocks_used = integer
+        blocks_available = integer
+        used_percent = integer
+        mount_point = varchar(16)
+'''
+
 
 import sqlite3
 import os
@@ -36,19 +50,14 @@ for row in data:
     blocks_used = int(row[2])
     blocks_available = int(row[3])
     used_percent = row[4]
-    mountpoint = row[5]
+    mount_point = row[5]
 
     if debug:
-      showdata((now,filesystem,blocks,blocks_used,blocks_available,used_percent,mountpoint))
+      showdata((now,filesystem,blocks,blocks_used,blocks_available,used_percent,mount_point))
 
-    sql = 'insert into disk (runid, filesystem, blocks, blocks_used, blocks_available, used_percent, mountpoint) values (?, ?, ?, ?, ?, ?, ?)'
-    cur.execute(sql, (now, filesystem, blocks, blocks_used, blocks_available, used_percent, mountpoint))
+    sql = 'insert into disk (runid, filesystem, blocks, blocks_used, blocks_available, used_percent, mount_point) values (?, ?, ?, ?, ?, ?, ?)'
+    cur.execute(sql, (now, filesystem, blocks, blocks_used, blocks_available, used_percent, mount_point))
     inserted = True
 
 if inserted:
   db.commit()
-
-'''
-columns in disk.db (table = disk)
-id, runid, filesystem, blocks, blocks_used, blocks_available, used_percent, mountpoint
-'''
