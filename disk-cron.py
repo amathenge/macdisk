@@ -28,16 +28,29 @@ sql = "select * from disk where runid = (select max(runid) from disk) and filesy
 cur.execute(sql)
 data = cur.fetchone()
 
-msg = 'Disk Utilization on Mac server:\n'
-msg += 'Timestamp: {}\n'.format(data['runid'])
-msg += 'Filesystem: {}\n'.format(data['filesystem'])
-msg += 'Total Blocks: {}\n'.format(data['blocks'])
-msg += 'Used Blocks: {}\n'.format(data['blocks_used'])
-msg += 'Available Blocks: {}\n'.format(data['blocks_available'])
-msg += 'Percentage used: {}\n'.format(data['used_percent'])
-msg += 'Mount Point: {}'.format(data['mount_point'])
+# 16APR2023@09:46 - if no data returned, do not error out.
+
+if data is None:
+    msg = 'No disk utilization records'
+else:
+    msg = 'Disk Utilization on Mac server:\n'
+    msg += 'Timestamp: {}\n'.format(data['runid'])
+    msg += 'Filesystem: {}\n'.format(data['filesystem'])
+    msg += 'Total Blocks: {}\n'.format(data['blocks'])
+    msg += 'Used Blocks: {}\n'.format(data['blocks_used'])
+    msg += 'Available Blocks: {}\n'.format(data['blocks_available'])
+    msg += 'Percentage used: {}\n'.format(data['used_percent'])
+    msg += 'Mount Point: {}'.format(data['mount_point'])
 
 response = sendSMS(msg, cred.recipients)
+
+# 16APR2023@09:32 - logging success/failure of SMS
+sql = 'insert into log (logtime, message) values (?, ?)'
+cur.execute(sql, [now, response])
+db.commit()
+
+# close the database END OF PROGRAM
+db.close()
 
 # code below is the old Uwazii Mobile API
 # --------------------------------------
