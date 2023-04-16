@@ -1,5 +1,6 @@
-#!/usr/bin/env python3
 '''
+    NOTE: did not include the python shebang because we should use the venv python
+
     run "df -k" to check disk space on the server. Put the results of this into 
     a sqlite database [disk.db]
 

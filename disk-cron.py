@@ -1,5 +1,6 @@
-#!/usr/bin/env python3
 '''
+    NOTE: we did not include python shebang because this should be run by the venv python
+    
     should be run by cron at intervals (e.g., 2 times per day)
     example:
         0 8,18 * * * /home/andrew/src/python/macdisk/disk-cron.py
@@ -8,6 +9,11 @@
     on the server. Disk utilization is stored in a sqlite3 database (disk.db).
     The database is normally in the folder /home/andrew/src/python/disk
     The database has a table: disk (see disk.py for table structure)
+
+    NOTE: if crontab is not running this file, it may be due to the python path
+    best to use the virtual environment, so the crontab should look like:
+        0 8,18 * * * /home/andrew/src/python/.venv/bin/python /home/andrew/src/python/macdisk/disk-cron.py
+    using that path, all additional modules (like request) will be included.
 '''
 
 import sqlite3
