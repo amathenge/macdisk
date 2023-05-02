@@ -1,10 +1,10 @@
 '''
     NOTE: we did not include python shebang because this should be run by the venv python
-    
+
     should be run by cron at intervals (e.g., 2 times per day)
     example:
         0 8,18 * * * /home/andrew/src/python/macdisk/disk-cron.py
-    
+
     This module will send an SMS to the recipients with the disk utilization
     on the server. Disk utilization is stored in a sqlite3 database (disk.db).
     The database is normally in the folder /home/andrew/src/python/disk
