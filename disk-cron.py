@@ -36,6 +36,9 @@ data = cur.fetchone()
 
 # 16APR2023@09:46 - if no data returned, do not error out.
 
+# worth mentioning again - cur.fetchone() returns None if there is no data
+# but cur.fetchall() returns an empty set [] if there is no data.
+
 if data is None:
     msg = 'No disk utilization records'
 else:
