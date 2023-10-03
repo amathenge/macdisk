@@ -12,6 +12,17 @@
         blocks_available = integer
         used_percent = integer
         mount_point = varchar(16)
+
+    To get a list of ID's (max) from the database for each runid, run:
+        select runid, max(id) from disk group by runid order by id desc limit 10;
+    that gives you to the last 10 runid's
+
+    If you want to see how many they are, you can even do something like this:
+        select count(*) from (select runid, max(id) from disk);
+    this gives you the total number of times this program ran.
+
+    NOTE: EACH TIME THE PROGRAM RUNS, IT CREATES 7 ROWS IN THE DISK TABLE
+
 '''
 
 

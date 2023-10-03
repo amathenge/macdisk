@@ -1,4 +1,4 @@
 disk.db
 cred.py
 archive/*
-__pycache__/*
+**/__pycache__/*
