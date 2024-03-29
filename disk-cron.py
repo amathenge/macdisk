@@ -39,17 +39,24 @@ data = cur.fetchone()
 # worth mentioning again - cur.fetchone() returns None if there is no data
 # but cur.fetchall() returns an empty set [] if there is no data.
 
+format = '%A, %d %B %Y %I:%M%p'
+
 if data is None:
     msg = 'No disk utilization records'
 else:
     msg = 'Disk Utilization on Mac server:\n'
-    msg += 'Timestamp: {}\n'.format(data['runid'])
-    msg += 'Filesystem: {}\n'.format(data['filesystem'])
-    msg += 'Total Blocks: {}\n'.format(data['blocks'])
-    msg += 'Used Blocks: {}\n'.format(data['blocks_used'])
-    msg += 'Available Blocks: {}\n'.format(data['blocks_available'])
+    # msg += 'Timestamp: {}\n'.format(data['runid'])
+    rundate = datetime.strptime(data['runid'], '%Y-%m-%d %H:%M:%S')
+    msg += 'Date: {}\n'.format(rundate.strftime(format))
+    # msg += 'Filesystem: {}\n'.format(data['filesystem'])
+    # msg += 'Total Blocks: {}\n'.format(data['blocks'])
+    msg += "Total MB={}\n".format(data['blocks'])
+    # msg += 'Used Blocks: {}\n'.format(data['blocks_used'])
+    msg += "Used MB={}\n".format(data['blocks_used'])
+    # msg += 'Available Blocks: {}\n'.format(data['blocks_available'])
+    msg += "Available MB={}\n".format(data['blocks_available'])
     msg += 'Percentage used: {}\n'.format(data['used_percent'])
-    msg += 'Mount Point: {}'.format(data['mount_point'])
+    # msg += 'Mount Point: {}'.format(data['mount_point'])
 
 response = sendSMS(msg, cred.recipients)
 

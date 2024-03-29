@@ -51,6 +51,7 @@ db.row_factory = sqlite3.Row
 cur = db.cursor()
 
 data = os.popen('df -k').read()
+# data = os.popen('df -h').read()
 data = data.split('\n')
 del data[0]
 inserted = False
@@ -58,9 +59,10 @@ for row in data:
   row = row.split()
   if len(row) == 6:
     filesystem = row[0]
-    blocks = int(row[1])
-    blocks_used = int(row[2])
-    blocks_available = int(row[3])
+    # reporting in MB (29MAR2024)
+    blocks = int(int(row[1]) / 1024)
+    blocks_used = int(int(row[2]) / 1024)
+    blocks_available = int(int(row[3]) / 1024)
     used_percent = row[4]
     mount_point = row[5]
 
