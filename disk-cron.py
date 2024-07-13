@@ -42,9 +42,9 @@ data = cur.fetchone()
 format = '%A, %d %B %Y %I:%M%p'
 
 if data is None:
-    msg = 'No disk utilization records'
+    msg = 'No disk usage records'
 else:
-    msg = 'Disk Utilization on Mac server:\n'
+    msg = 'Disk Usage on Mac server:\n'
     # msg += 'Timestamp: {}\n'.format(data['runid'])
     rundate = datetime.strptime(data['runid'], '%Y-%m-%d %H:%M:%S')
     msg += 'Date: {}\n'.format(rundate.strftime(format))
